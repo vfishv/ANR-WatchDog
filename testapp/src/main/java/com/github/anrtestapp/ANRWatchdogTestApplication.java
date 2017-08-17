@@ -14,6 +14,34 @@ public class ANRWatchdogTestApplication extends Application {
 
     ANRWatchDog anrWatchDog = new ANRWatchDog(2000);
 
+    private String getCause(Throwable throwable, int level) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < level; i++) {
+            sb.append("    ");
+        }
+        sb.append(throwable.toString());
+        sb.append('\n');
+
+        StackTraceElement[] traceElements = throwable.getStackTrace();
+        if (traceElements != null) {
+            for (StackTraceElement traceElement : traceElements) {
+                for (int i = 0; i < level; i++) {
+                    sb.append("    ");
+                }
+                sb.append(traceElement.toString());
+                sb.append('\n');
+            }
+        }
+
+        Throwable cause = throwable.getCause();
+        if (cause != null) {
+            String causeStr = getCause(cause, level + 1);
+            sb.append(causeStr);
+        }
+
+        return sb.toString();
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -22,6 +50,8 @@ public class ANRWatchdogTestApplication extends Application {
             @Override
             public void onAppNotResponding(ANRError error) {
                 Log.e("ANR-Watchdog", "Detected Application Not Responding!");
+                
+                Log.e("ANR-Watchdog", "ANR cause:" +  getCause(error, 0));
 
                 // Some tools like ACRA are serializing the exception, so we must make sure the exception serializes correctly
                 try {

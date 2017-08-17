@@ -1,4 +1,5 @@
 
+//apply plugin: 'com.android.application'
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'signing'
@@ -22,6 +23,24 @@ artifacts {
     archives javadocJar, sourcesJar
 }
 
+//android {
+//    compileSdkVersion 25
+//    buildToolsVersion "25.0.3"
+//
+//    defaultConfig {
+//        applicationId "com.mobilead.samples.decodesampleactivity"
+//        minSdkVersion 14
+//        targetSdkVersion 19
+//    }
+//
+//    buildTypes {
+//        release {
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+//        }
+//    }
+//}
+
 signing {
     sign configurations.archives
 }
@@ -34,7 +53,7 @@ configurations {
 dependencies {
     provided 'com.google.android:android:2.1.2'
 }
-
+/*
 uploadArchives {
     repositories {
         mavenDeployer {
@@ -85,3 +104,4 @@ uploadArchives {
         }
     }
 }
+*/
